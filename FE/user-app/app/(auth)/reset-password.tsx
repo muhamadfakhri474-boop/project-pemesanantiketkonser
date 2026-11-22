@@ -8,10 +8,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { authService } from '@/services/auth.service';
 
-const BG = '#0d1117';
-const CARD = '#1c2333';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const CARD = '#334155';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 export default function ResetPasswordScreen() {
   const { email, otp } = useLocalSearchParams<{ email: string; otp: string }>();
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   strengthBg: {
     flex: 1, height: 4,
-    backgroundColor: '#1f2937',
+    backgroundColor: '#475569',
     borderRadius: 2,
     overflow: 'hidden',
   },

@@ -10,10 +10,10 @@ import { router } from 'expo-router';
 import dayjs from 'dayjs';
 import { orderService, Order } from '@/services/order.service';
 
-const BG = '#0d1117';
-const CARD = '#111827';
-const GRAY = '#6B7280';
-const YELLOW = '#F5C518';
+const BG = '#0B1120';
+const CARD = '#1E293B';
+const GRAY = '#94A3B8';
+const YELLOW = '#3B82F6';
 
 function getStatusStyle(status: Order['payment_status']) {
   switch (status) {
@@ -23,7 +23,7 @@ function getStatusStyle(status: Order['payment_status']) {
     case 'failed':    return { bg: '#3f1f1f', text: '#f87171', label: 'Failed' };
     case 'expired':   return { bg: '#292524', text: '#a8a29e', label: 'Expired' };
     case 'pending':   return { bg: '#3f2f0f', text: '#fbbf24', label: 'Pending' };
-    default:          return { bg: '#1f2937', text: GRAY,      label: status };
+    default:          return { bg: '#475569', text: GRAY,      label: status };
   }
 }
 
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: '#475569',
   },
   cardTop: {
     flexDirection: 'row',
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   eventSub: { color: GRAY, fontSize: 12 },
   divider: {
     height: 1,
-    backgroundColor: '#1f2937',
+    backgroundColor: '#475569',
     marginVertical: 12,
   },
   cardBottom: {

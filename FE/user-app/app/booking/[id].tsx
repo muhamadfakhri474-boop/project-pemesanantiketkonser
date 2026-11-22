@@ -12,12 +12,13 @@ import dayjs from 'dayjs';
 import { eventService, Event, TicketCategory, EventSeat } from '@/services/event.service';
 import { orderService } from '@/services/order.service';
 import { getImageUrl } from '@/utils/image';
+import { useRealtime } from '@/hooks/useRealtime';
 
-const BG = '#0d1117';
-const CARD = '#111827';
-const CARD2 = '#1c2333';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const CARD = '#1E293B';
+const CARD2 = '#334155';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 // Palette warna konsisten untuk kategori tiket
 const CATEGORY_PALETTE = [
@@ -96,6 +97,14 @@ export default function BookingScreen() {
     };
 
     fetchData();
+
+    // Real-time listener: refresh saat kuota berubah
+    const { connect, on, off } = require('@/store/realtimeStore');
+    connect();
+    on('categories:changed', fetchData);
+    return () => {
+      off('categories:changed');
+    };
   }, [id]);
 
   // Map category id ke color styling
@@ -735,7 +744,7 @@ const styles = StyleSheet.create({
   // Event Mini Card (Referensi TixVerse)
   eventCard: {
     flexDirection: 'row', backgroundColor: CARD,
-    borderRadius: 14, padding: 12, borderWidth: 1, borderColor: '#1f2937',
+    borderRadius: 14, padding: 12, borderWidth: 1, borderColor: '#475569',
     marginBottom: 14, alignItems: 'center', gap: 12,
   },
   eventImg: { width: 72, height: 72, borderRadius: 10 },
@@ -751,7 +760,7 @@ const styles = StyleSheet.create({
   catLegendPill: {
     flexDirection: 'row', alignItems: 'center',
     backgroundColor: CARD, borderRadius: 12, paddingHorizontal: 12,
-    paddingVertical: 8, borderWidth: 1, borderColor: '#1f2937', gap: 8,
+    paddingVertical: 8, borderWidth: 1, borderColor: '#475569', gap: 8,
   },
   catLegendPillActive: { borderColor: YELLOW, backgroundColor: '#1e2418' },
   catLegendText: { color: '#D1D5DB', fontSize: 12, fontWeight: '600' },
@@ -762,7 +771,7 @@ const styles = StyleSheet.create({
   // Seat Map Card
   seatMapCard: {
     backgroundColor: CARD, borderRadius: 18,
-    padding: 16, borderWidth: 1, borderColor: '#1f2937',
+    padding: 16, borderWidth: 1, borderColor: '#475569',
     marginBottom: 16, overflow: 'hidden',
   },
 
@@ -852,7 +861,7 @@ const styles = StyleSheet.create({
   },
   seatNumberTextSold: { color: '#64748b', textDecorationLine: 'line-through' },
   seatBlocked: {
-    backgroundColor: '#111827', borderColor: '#1f2937', opacity: 0.3,
+    backgroundColor: '#1E293B', borderColor: '#475569', opacity: 0.3,
   },
   seatNumberTextBlocked: { color: '#475569' },
 
@@ -866,13 +875,13 @@ const styles = StyleSheet.create({
   legendAvail: { backgroundColor: 'rgba(59, 130, 246, 0.4)', borderWidth: 1, borderColor: '#3B82F6' },
   legendSelected: { backgroundColor: '#A855F7', borderWidth: 1, borderColor: '#fff' },
   legendSold: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#475569' },
-  legendBlocked: { backgroundColor: '#111827', borderWidth: 1, borderColor: '#1f2937' },
+  legendBlocked: { backgroundColor: '#1E293B', borderWidth: 1, borderColor: '#475569' },
   legendText: { color: GRAY, fontSize: 10 },
 
   // Manual Mode Card
   manualCard: {
     backgroundColor: CARD, borderRadius: 16,
-    padding: 16, borderWidth: 1, borderColor: '#1f2937', marginBottom: 16,
+    padding: 16, borderWidth: 1, borderColor: '#475569', marginBottom: 16,
   },
   manualCatGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 10 },
   manualCatItem: {
@@ -902,7 +911,7 @@ const styles = StyleSheet.create({
   // Selected Seats Section (Sesuai Referensi Gambar)
   selectedSeatsSection: {
     backgroundColor: CARD, borderRadius: 16,
-    padding: 16, borderWidth: 1, borderColor: '#1f2937', marginBottom: 16,
+    padding: 16, borderWidth: 1, borderColor: '#475569', marginBottom: 16,
   },
   selectedSeatsHeader: {
     flexDirection: 'row', justifyContent: 'space-between',
@@ -928,20 +937,20 @@ const styles = StyleSheet.create({
   // Order Summary Card
   orderSummaryCard: {
     backgroundColor: CARD, borderRadius: 16,
-    padding: 16, borderWidth: 1, borderColor: '#1f2937', marginBottom: 16,
+    padding: 16, borderWidth: 1, borderColor: '#475569', marginBottom: 16,
     gap: 10,
   },
   summaryItemRow: { flexDirection: 'row', justifyContent: 'space-between' },
   summaryItemLabel: { color: GRAY, fontSize: 13 },
   summaryItemValue: { color: '#D1D5DB', fontSize: 13, fontWeight: '600' },
-  summaryDivider: { height: 1, backgroundColor: '#1f2937', marginVertical: 4 },
+  summaryDivider: { height: 1, backgroundColor: '#475569', marginVertical: 4 },
   summaryTotalLabel: { color: '#fff', fontSize: 14, fontWeight: '700' },
   summaryTotalAmount: { color: YELLOW, fontSize: 17, fontWeight: '800' },
 
   // Payment Section
   paymentSection: {
     backgroundColor: CARD, borderRadius: 16,
-    padding: 16, borderWidth: 1, borderColor: '#1f2937', marginBottom: 16,
+    padding: 16, borderWidth: 1, borderColor: '#475569', marginBottom: 16,
   },
   payToggle: {
     flexDirection: 'row', backgroundColor: CARD2,
@@ -966,10 +975,10 @@ const styles = StyleSheet.create({
   // Bottom Sticky Bar
   bottomBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: '#111827', flexDirection: 'row',
+    backgroundColor: '#1E293B', flexDirection: 'row',
     alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 20, paddingTop: 14, paddingBottom: 28,
-    borderTopWidth: 1, borderTopColor: '#1f2937',
+    borderTopWidth: 1, borderTopColor: '#475569',
     shadowColor: '#000', shadowOpacity: 0.4, shadowRadius: 10, elevation: 12,
   },
   bottomPriceCol: { gap: 2 },

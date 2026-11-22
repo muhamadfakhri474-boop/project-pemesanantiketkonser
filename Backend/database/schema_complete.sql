@@ -44,6 +44,7 @@ CREATE TABLE artists (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   description TEXT NULL,
+  genre VARCHAR(50) NULL,
   photo VARCHAR(255) NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
@@ -53,7 +54,7 @@ CREATE TABLE artists (
 -- ============================================================
 CREATE TABLE events (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  artist_id INT UNSIGNED NOT NULL,
+  artist_id INT UNSIGNED NULL,
   title VARCHAR(150) NOT NULL,
   description TEXT NULL,
   venue VARCHAR(150) NOT NULL,
@@ -66,10 +67,25 @@ CREATE TABLE events (
   payment_deadline_minutes INT NOT NULL DEFAULT 30,
   cancelled_at DATETIME NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_event_artist FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE,
+  CONSTRAINT fk_event_artist FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE SET NULL,
   INDEX idx_events_date (event_date),
   INDEX idx_events_status (status),
   INDEX idx_events_genre (genre)
+) ENGINE=InnoDB;
+
+-- ============================================================
+-- EVENT ARTISTS (Relasi multi-artist untuk konser)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS event_artists (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  event_id INT UNSIGNED NOT NULL,
+  artist_id INT UNSIGNED NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_ea_event FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+  CONSTRAINT fk_ea_artist FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE,
+  UNIQUE KEY uq_event_artist (event_id, artist_id),
+  INDEX idx_ea_event (event_id),
+  INDEX idx_ea_artist (artist_id)
 ) ENGINE=InnoDB;
 
 -- ============================================================
@@ -215,12 +231,12 @@ INSERT INTO users (name, email, password, role) VALUES
 -- ============================================================
 -- SEED ARTISTS
 -- ============================================================
-INSERT INTO artists (id, name, description, photo) VALUES
-(1, 'I Prevail', 'I Prevail is an American rock band known for blending post-hardcore, metalcore, and alternative rock.', 'uploads/artists/i_prevail-artist.jpg'),
-(2, 'Avenged Sevenfold', 'Avenged Sevenfold is an American heavy metal band recognized for their dynamic guitar work and theatrical sound.', 'uploads/artists/avenged_sevenfold-artist.jpg'),
-(3, 'Dewa 19', 'Band rock legendaris Indonesia yang dibentuk tahun 1986 di Surabaya.', 'uploads/artists/dewa19-artist.jpg'),
-(4, 'Slipknot', 'Slipknot is an American heavy metal band known for their aggressive sound and intense live performances.', 'uploads/artists/slipknot-artist.jpg'),
-(5, 'Cigarettes After Sex', 'Cigarettes After Sex is an American ambient pop band known for their dreamy, atmospheric sound.', 'uploads/artists/cigarettes_as-artist.jpg');
+INSERT INTO artists (id, name, description, genre, photo) VALUES
+(1, 'I Prevail', 'I Prevail is an American rock band known for blending post-hardcore, metalcore, and alternative rock.', 'Post-Hardcore', 'uploads/artists/i_prevail-artist.jpg'),
+(2, 'Avenged Sevenfold', 'Avenged Sevenfold is an American heavy metal band recognized for their dynamic guitar work and theatrical sound.', 'Heavy Metal', 'uploads/artists/avenged_sevenfold-artist.jpg'),
+(3, 'Dewa 19', 'Band rock legendaris Indonesia yang dibentuk tahun 1986 di Surabaya.', 'Pop Rock', 'uploads/artists/dewa19-artist.jpg'),
+(4, 'Slipknot', 'Slipknot is an American heavy metal band known for their aggressive sound and intense live performances.', 'Heavy Metal', 'uploads/artists/slipknot-artist.jpg'),
+(5, 'Cigarettes After Sex', 'Cigarettes After Sex is an American ambient pop band known for their dreamy, atmospheric sound.', 'Ambient Pop', 'uploads/artists/cigarettes_as-artist.jpg');
 
 -- ============================================================
 -- SEED EVENTS

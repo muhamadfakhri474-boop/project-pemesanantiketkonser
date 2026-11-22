@@ -3,8 +3,8 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
-const YELLOW = '#F5C518';
-const GRAY = '#4B5563';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 export default function TabLayout() {
   return (
@@ -12,9 +12,9 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#111827',
+          backgroundColor: '#1E293B',
           borderTopWidth: 1,
-          borderTopColor: '#1f2937',
+          borderTopColor: '#475569',
           height: 64,
           paddingBottom: 10,
           paddingTop: 8,

@@ -1,8 +1,20 @@
 import api from './api';
 
+export interface AdminRegisterData {
+  name: string;
+  email: string;
+  username?: string;
+  phone?: string;
+  password: string;
+}
+
 export const authService = {
   login: async (email: string, password: string) => {
     const res = await api.post('/admin/auth/login', { email, password });
+    return res.data;
+  },
+  register: async (data: AdminRegisterData) => {
+    const res = await api.post('/admin/auth/register', data);
     return res.data;
   },
   logout: async () => {
@@ -16,6 +28,7 @@ export const eventService = {
   getById: (id: number) => api.get(`/admin/events/${id}`).then(r => r.data),
   create: (data: FormData) => api.post('/admin/events', data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(r => r.data),
   update: (id: number, data: FormData) => api.put(`/admin/events/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(r => r.data),
+  setStatus: (id: number, status: 'open' | 'closed') => api.patch(`/admin/events/${id}/status`, { status }).then(r => r.data),
   delete: (id: number) => api.delete(`/admin/events/${id}`).then(r => r.data),
 };
 
@@ -28,8 +41,8 @@ export const artistService = {
 };
 
 export const ticketCategoryService = {
-  getByEvent: (eventId: number) => api.get(`/admin/categories?event_id=${eventId}`).then(r => r.data),
-  create: (data: object) => api.post('/admin/categories', data).then(r => r.data),
+  getByEvent: (eventId: number) => api.get(`/admin/events/${eventId}/categories`).then(r => r.data),
+  create: (eventId: number, data: object) => api.post(`/admin/events/${eventId}/categories`, data).then(r => r.data),
   update: (id: number, data: object) => api.put(`/admin/categories/${id}`, data).then(r => r.data),
   delete: (id: number) => api.delete(`/admin/categories/${id}`).then(r => r.data),
 };

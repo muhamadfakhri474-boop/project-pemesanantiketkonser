@@ -4,7 +4,14 @@ import db from '../../config/db.js';
 export const getAllOrders = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT o.*, u.name AS customer_name, u.email AS customer_email, e.title AS event_title
+      SELECT o.*, u.name AS customer_name, u.email AS customer_email, e.title AS event_title,
+        (SELECT GROUP_CONCAT(DISTINCT tc.name ORDER BY tc.name SEPARATOR ', ')
+           FROM order_items oi
+           JOIN ticket_categories tc ON oi.ticket_category_id = tc.id
+          WHERE oi.order_id = o.id) AS category,
+        (SELECT COALESCE(SUM(oi.quantity), 0)
+           FROM order_items oi
+          WHERE oi.order_id = o.id) AS qty
       FROM orders o
       JOIN users u ON o.user_id = u.id
       JOIN events e ON o.event_id = e.id
@@ -20,10 +27,16 @@ export const getAllOrders = async (req, res) => {
 export const getOrderById = async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT o.*, u.name AS customer_name, u.email AS customer_email, e.title AS event_title
+      SELECT o.*, u.name AS customer_name, u.email AS customer_email,
+             e.title AS event_title, e.venue, e.city, e.event_date,
+             p.payment_method, p.transaction_id, p.status AS payment_verify_status,
+             p.verified_at, p.payment_proof
       FROM orders o
       JOIN users u ON o.user_id = u.id
       JOIN events e ON o.event_id = e.id
+      LEFT JOIN payments p ON p.id = (
+        SELECT MAX(p2.id) FROM payments p2 WHERE p2.order_id = o.id
+      )
       WHERE o.id = ?
     `, [req.params.id]);
 

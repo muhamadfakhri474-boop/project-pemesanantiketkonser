@@ -1,4 +1,5 @@
 import db from '../../config/db.js';
+import { emitRealtime } from '../../config/realtime.js';
 
 // GET /api/customer/orders  — riwayat order milik customer
 export const getMyOrders = async (req, res) => {
@@ -161,6 +162,11 @@ export const createOrder = async (req, res) => {
     }
 
     await conn.commit();
+
+    emitRealtime('orders:changed', { action: 'create', orderId, eventId: event_id });
+    emitRealtime('categories:changed', { action: 'quota_updated', eventId: event_id });
+    emitRealtime('dashboard:changed', { action: 'order_created' });
+
     res.status(201).json({
       message: 'Order berhasil dibuat, silakan lakukan pembayaran',
       order_id: orderId,
@@ -226,6 +232,11 @@ export const cancelOrder = async (req, res) => {
     );
 
     await conn.commit();
+
+    emitRealtime('orders:changed', { action: 'cancel', orderId: req.params.id });
+    emitRealtime('categories:changed', { action: 'quota_restored' });
+    emitRealtime('dashboard:changed', { action: 'order_cancelled' });
+
     res.json({ message: 'Order berhasil dibatalkan' });
   } catch (err) {
     await conn.rollback();

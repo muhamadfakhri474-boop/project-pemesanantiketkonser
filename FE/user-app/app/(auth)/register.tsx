@@ -113,7 +113,7 @@ export default function RegisterScreen() {
               <TextInput
                 style={[styles.input, errors.name && styles.inputError]}
                 placeholder="Your Name"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#94A3B8"
                 autoCapitalize="words"
                 value={value}
                 onChangeText={onChange}
@@ -131,7 +131,7 @@ export default function RegisterScreen() {
               <TextInput
                 style={[styles.input, errors.email && styles.inputError]}
                 placeholder="your@email.com"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#94A3B8"
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={value}
@@ -150,7 +150,7 @@ export default function RegisterScreen() {
               <TextInput
                 style={[styles.input, errors.phone && styles.inputError]}
                 placeholder="+62 812 3456 7890"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor="#94A3B8"
                 keyboardType="phone-pad"
                 value={value}
                 onChangeText={onChange}
@@ -169,7 +169,7 @@ export default function RegisterScreen() {
                 <TextInput
                   style={styles.passwordInput}
                   placeholder="••••••••"
-                  placeholderTextColor="#6B7280"
+                  placeholderTextColor="#94A3B8"
                   secureTextEntry={!showPassword}
                   value={value}
                   onChangeText={onChange}
@@ -192,7 +192,7 @@ export default function RegisterScreen() {
                 <TextInput
                   style={styles.passwordInput}
                   placeholder="••••••••"
-                  placeholderTextColor="#6B7280"
+                  placeholderTextColor="#94A3B8"
                   secureTextEntry={!showConfirmPassword}
                   value={value}
                   onChangeText={onChange}
@@ -249,10 +249,10 @@ export default function RegisterScreen() {
   );
 }
 
-const BG = '#0d1117';
-const CARD = '#1c2333';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const CARD = '#334155';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: BG },

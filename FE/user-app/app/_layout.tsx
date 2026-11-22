@@ -7,9 +7,10 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useAuthStore } from '@/store/auth.store';
+import { useRealtimeStore } from '@/store/realtimeStore';
 
-const YELLOW = '#F5C518';
-const BG = '#0d1117';
+const YELLOW = '#3B82F6';
+const BG = '#0B1120';
 
 function SplashScreen() {
   const logoAnim = useRef(new Animated.Value(0)).current;
@@ -160,14 +161,16 @@ const splash = StyleSheet.create({
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const { loadToken, isAuthenticated } = useAuthStore();
+  const loadToken = useAuthStore((state) => state.loadToken);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const connectSocket = useRealtimeStore((state) => state.connect);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      // Pulihkan session yang tersimpan agar pengguna tidak perlu login ulang.
+      // Cek apakah ada token tersimpan di storage
       await loadToken();
-      // Minimal 2 detik supaya splash screen sempat terlihat.
+      // Minimal 1,2 detik supaya splash screen sempat terlihat
       await new Promise((resolve) => setTimeout(resolve, 1200));
       setIsReady(true);
     };
@@ -176,12 +179,13 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!isReady) return;
+    connectSocket();
     if (isAuthenticated) {
       router.replace('/(tabs)');
     } else {
       router.replace('/(auth)/login');
     }
-  }, [isReady, isAuthenticated]);
+  }, [isReady, isAuthenticated, connectSocket]);
 
   if (!isReady) {
     return <SplashScreen />;

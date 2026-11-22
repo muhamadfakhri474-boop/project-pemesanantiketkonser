@@ -12,7 +12,7 @@ export const verifyTicket = async (req, res) => {
       FROM orders o
       JOIN events e ON o.event_id = e.id
       JOIN users u ON o.user_id = u.id
-      JOIN artists a ON e.artist_id = a.id
+      LEFT JOIN artists a ON e.artist_id = a.id
       WHERE o.id = ? AND o.ticket_token IS NOT NULL
     `, [req.params.orderId]);
 

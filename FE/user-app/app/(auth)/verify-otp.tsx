@@ -9,10 +9,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { authService } from '@/services/auth.service';
 
-const BG = '#0d1117';
-const CARD = '#1c2333';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const CARD = '#334155';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 const OTP_LENGTH = 6;
 
 export default function VerifyOtpScreen() {
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   otpBoxFilled: {
     borderColor: YELLOW,
-    backgroundColor: '#1c2333',
+    backgroundColor: '#334155',
   },
 
   button: {

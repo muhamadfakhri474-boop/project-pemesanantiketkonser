@@ -33,6 +33,9 @@ export const createCategory = async (req, res) => {
 
     res.status(201).json({ message: 'Kategori tiket berhasil ditambahkan', categoryId: result.insertId });
   } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ message: 'Nama kategori tersebut sudah ada pada konser ini' });
+    }
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
@@ -68,13 +71,36 @@ export const updateCategory = async (req, res) => {
 
 // DELETE /api/admin/categories/:id
 export const deleteCategory = async (req, res) => {
+  const conn = await db.getConnection();
   try {
-    const [existing] = await db.query('SELECT id FROM ticket_categories WHERE id = ?', [req.params.id]);
-    if (existing.length === 0) return res.status(404).json({ message: 'Kategori tidak ditemukan' });
+    const [existing] = await conn.query('SELECT id FROM ticket_categories WHERE id = ?', [req.params.id]);
+    if (existing.length === 0) {
+      conn.release();
+      return res.status(404).json({ message: 'Kategori tidak ditemukan' });
+    }
 
-    await db.query('DELETE FROM ticket_categories WHERE id = ?', [req.params.id]);
+    const [used] = await conn.query(
+      'SELECT COUNT(*) AS total FROM order_items WHERE ticket_category_id = ?',
+      [req.params.id]
+    );
+    if (used[0].total > 0) {
+      conn.release();
+      return res.status(409).json({
+        message: 'Kategori ini sudah memiliki pesanan sehingga tidak dapat dihapus',
+      });
+    }
+
+    await conn.beginTransaction();
+    // Kursi individual yang dibuat untuk kategori ini ikut dihapus.
+    await conn.query('DELETE FROM event_seats WHERE ticket_category_id = ?', [req.params.id]);
+    await conn.query('DELETE FROM ticket_categories WHERE id = ?', [req.params.id]);
+    await conn.commit();
+    conn.release();
+
     res.json({ message: 'Kategori tiket berhasil dihapus' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    try { await conn.rollback(); } catch { /* noop */ }
+    conn.release();
+    res.status(500).json({ message: 'Gagal menghapus kategori', error: err.message });
   }
 };

@@ -9,9 +9,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { paymentService } from '@/services/payment.service';
 
-const BG = '#0d1117';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 export default function PaymentScreen() {
   const { orderId } = useLocalSearchParams<{ orderId: string }>();

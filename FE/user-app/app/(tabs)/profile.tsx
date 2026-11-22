@@ -12,11 +12,11 @@ import { authService } from '@/services/auth.service';
 import { orderService } from '@/services/order.service';
 import AvatarInitial from '@/components/avatar-initial';
 
-const BG = '#0d1117';
-const CARD = '#111827';
-const CARD2 = '#1c2333';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const CARD = '#1E293B';
+const CARD2 = '#334155';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 type MenuItem =
   | { icon: string; label: string; onPress: () => void; toggle?: never }
@@ -482,12 +482,12 @@ const styles = StyleSheet.create({
   statsRow: {
     flexDirection: 'row', backgroundColor: CARD,
     marginHorizontal: 20, borderRadius: 16, padding: 16,
-    marginBottom: 24, borderWidth: 1, borderColor: '#1f2937',
+    marginBottom: 24, borderWidth: 1, borderColor: '#475569',
   },
   statItem: { flex: 1, alignItems: 'center', gap: 4 },
   statNum: { color: YELLOW, fontSize: 20, fontWeight: '700' },
   statLabel: { color: GRAY, fontSize: 12 },
-  statDivider: { width: 1, backgroundColor: '#1f2937' },
+  statDivider: { width: 1, backgroundColor: '#475569' },
   section: { marginHorizontal: 20, marginBottom: 16 },
   sectionLabel: {
     color: GRAY, fontSize: 12, fontWeight: '600',
@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
   },
   menuCard: {
     backgroundColor: CARD, borderRadius: 16,
-    borderWidth: 1, borderColor: '#1f2937', overflow: 'hidden',
+    borderWidth: 1, borderColor: '#475569', overflow: 'hidden',
   },
   menuItem: {
     flexDirection: 'row', alignItems: 'center',
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
     borderRadius: 10, alignItems: 'center', justifyContent: 'center',
   },
   menuLabel: { color: '#D1D5DB', fontSize: 14 },
-  menuDivider: { height: 1, backgroundColor: '#1f2937', marginHorizontal: 16 },
+  menuDivider: { height: 1, backgroundColor: '#475569', marginHorizontal: 16 },
   logoutBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
     gap: 10, marginHorizontal: 20, marginTop: 8,
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     backgroundColor: CARD, borderRadius: 20,
-    padding: 20, borderWidth: 1, borderColor: '#1f2937',
+    padding: 20, borderWidth: 1, borderColor: '#475569',
   },
   modalHeader: {
     flexDirection: 'row', justifyContent: 'space-between',

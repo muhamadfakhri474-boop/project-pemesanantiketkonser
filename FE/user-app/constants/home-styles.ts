@@ -2,13 +2,14 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
-export const BG     = '#0d1117';
-export const CARD   = '#161b25';
-export const CARD2  = '#1c2333';
-export const YELLOW = '#F5C518';
-export const GRAY   = '#8B95A6';
-export const WHITE  = '#FFFFFF';
-export const WHITE2 = 'rgba(255,255,255,0.65)';
+export const BG     = '#0B1120';
+export const CARD   = '#1E293B';
+export const CARD2  = '#334155';
+export const BLUE   = '#3B82F6';
+export const YELLOW = BLUE; // backward-compatible alias for existing home components
+export const GRAY   = '#94A3B8';
+export const WHITE  = '#F8FAFC';
+export const WHITE2 = 'rgba(248,250,252,0.68)';
 
 /** Lebar satu slide banner = lebar layar (full-bleed) */
 export const FEATURED_W = width;
@@ -41,7 +42,7 @@ export const homeStyles = StyleSheet.create({
     paddingVertical: 13,
     marginBottom: 18,
     borderWidth: 1,
-    borderColor: '#252d3d',
+    borderColor: '#475569',
   },
   searchIcon:  { marginRight: 8 },
   searchInput: { flex: 1, color: WHITE, fontSize: 14, letterSpacing: 0.1 },
@@ -103,7 +104,7 @@ export const homeStyles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: CARD,
     borderWidth: 1,
-    borderColor: '#252d3d',
+    borderColor: '#475569',
   },
   catBtnActive:   { backgroundColor: YELLOW, borderColor: YELLOW },
   catText:        { color: GRAY,   fontSize: 13, fontWeight: '500' },
@@ -130,7 +131,7 @@ export const homeStyles = StyleSheet.create({
     borderRadius: 18,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#252d3d',
+    borderColor: '#475569',
   },
   eventCardImg:    { width: '100%', height: 140, position: 'relative' },
   eventCardImgFill:{ width: '100%', height: '100%' },
@@ -180,7 +181,7 @@ export const homeStyles = StyleSheet.create({
     borderRadius: 16,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#252d3d',
+    borderColor: '#475569',
     gap: 14,
   },
   upcomingImg:    { width: 68, height: 68, borderRadius: 12 },

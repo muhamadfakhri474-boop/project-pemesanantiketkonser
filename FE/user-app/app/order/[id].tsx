@@ -13,11 +13,11 @@ import { orderService, Order } from '@/services/order.service';
 import { getImageUrl } from '@/utils/image';
 import { Image } from 'expo-image';
 
-const BG = '#0d1117';
-const CARD = '#111827';
-const CARD2 = '#1c2333';
-const YELLOW = '#F5C518';
-const GRAY = '#6B7280';
+const BG = '#0B1120';
+const CARD = '#1E293B';
+const CARD2 = '#334155';
+const YELLOW = '#3B82F6';
+const GRAY = '#94A3B8';
 
 function getStatusStyle(status: Order['payment_status']) {
   switch (status) {
@@ -27,7 +27,7 @@ function getStatusStyle(status: Order['payment_status']) {
     case 'failed':    return { bg: '#3f1f1f', text: '#f87171', label: 'Failed' };
     case 'expired':   return { bg: '#292524', text: '#a8a29e', label: 'Expired' };
     case 'pending':   return { bg: '#3f2f0f', text: '#fbbf24', label: 'Pending' };
-    default:          return { bg: '#1f2937', text: GRAY,      label: status };
+    default:          return { bg: '#475569', text: GRAY,      label: status };
   }
 }
 
@@ -269,7 +269,7 @@ export default function OrderDetailScreen() {
                   value={qrData}
                   size={200}
                   backgroundColor="#fff"
-                  color="#0d1117"
+                  color="#0B1120"
                 />
               </View>
               <Text style={styles.qrNote}>
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   infoText: { color: '#D1D5DB', fontSize: 13 },
 
   divider: {
-    height: 1, backgroundColor: '#1f2937',
+    height: 1, backgroundColor: '#475569',
     marginVertical: 16,
   },
 
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
   qrPending: {
     alignItems: 'center', padding: 24,
     backgroundColor: CARD, borderRadius: 16, gap: 8,
-    borderWidth: 1, borderColor: '#1f2937',
+    borderWidth: 1, borderColor: '#475569',
   },
   qrPendingTitle: { color: '#fff', fontSize: 15, fontWeight: '700' },
   qrPendingText: { color: GRAY, fontSize: 12, textAlign: 'center' },

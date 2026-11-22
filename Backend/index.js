@@ -18,6 +18,9 @@ import webhookRoutes from './routes/webhookRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import seatRoutes from './routes/seatRoutes.js';
 
+import http from 'http';
+import { initRealtime } from './config/realtime.js';
+
 dotenv.config();
 
 const app = express();
@@ -39,8 +42,12 @@ const corsOptions = {
       'http://127.0.0.1:19006',
     ].filter(Boolean);
 
+    // Port dev Vite bisa bergeser (5174, 5175, dst. saat port utama terpakai),
+    // jadi izinkan origin localhost/127.0.0.1 pada port berapa pun.
+    const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
+
     // Izinkan request tanpa origin (React Native, Postman, dan mobile apps).
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || isLocalhost || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error(`CORS: Origin ${origin} tidak diizinkan`));
@@ -109,7 +116,10 @@ app.use((err, req, res, next) => {
 // ==============================
 // Start Server
 // ==============================
-app.listen(PORT, async () => {
+const server = http.createServer(app);
+initRealtime(server, corsOptions);
+
+server.listen(PORT, async () => {
   try {
     await db.query('SELECT 1');
     console.log('Database connected successfully');
